@@ -13,12 +13,16 @@
     <div v-for="product in products">
       {{ product.id }}
       {{ product.name }}
-      <p><button v-on:click="showProduct()">Show more info</button></p>
+      <p><button v-on:click="showProduct(product)">Show more info</button></p>
     <p><img v-bind:src= "product.image_url" v-bind:alt= "product.title"></p>
     </div>
     <dialog id="product-details">
       <form method="dialog">
         <h3>Hello</h3>
+        <p><strong>Name: </strong>{{ currentProduct.name }}</p>
+        <p><strong>Description: </strong>{{ currentProduct.description }}</p>
+        <p><strong>Price: $</strong>{{ currentProduct.price }}</p>
+        <p><strong>Image: </strong>{{ currentProduct.image_url }}</p>
         <button>Close</button>
       </form>
     </dialog>
@@ -37,6 +41,7 @@ export default {
       description: "",
       price: "",
       image_url: "",
+      currentProduct: {},
     };
   },
   created: function () {
@@ -62,7 +67,9 @@ export default {
         this.products.push(response.data);
       });
     },
-    showProduct: function () {
+    showProduct: function (theProduct) {
+      console.log(theProduct);
+      this.currentProduct = theProduct;
       console.log("showing product");
       document.querySelector("#product-details").showModal();
     },
