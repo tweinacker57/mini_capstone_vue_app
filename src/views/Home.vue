@@ -19,10 +19,11 @@
     <dialog id="product-details">
       <form method="dialog">
         <h3>Hello</h3>
-        <p><strong>Name: </strong>{{ currentProduct.name }}</p>
-        <p><strong>Description: </strong>{{ currentProduct.description }}</p>
-        <p><strong>Price: $</strong>{{ currentProduct.price }}</p>
-        <p><strong>Image: </strong>{{ currentProduct.image_url }}</p>
+        <p><strong>Name: </strong><input type="text" v-model="currentProduct.name"></p>
+        <p><strong>Description: </strong><input type="text" v-model="currentProduct.description"></p>
+        <p><strong>Price: $</strong><input type="text" v-model="currentProduct.price"></p>
+        <p><strong>Image: </strong><input type="text" v-model="currentProduct.image_url"></p>
+        <p><button v-on:click=updateProduct()>Update Product</button></p>
         <button>Close</button>
       </form>
     </dialog>
@@ -72,6 +73,20 @@ export default {
       this.currentProduct = theProduct;
       console.log("showing product");
       document.querySelector("#product-details").showModal();
+    },
+    updateProduct: function () {
+      var params = {
+        name: this.currentProduct.name,
+        description: this.currentProduct.description,
+        price: this.currentProduct.price,
+        image_url: this.currentProduct.image_url,
+      };
+      console.log("updating products");
+      axios
+        .patch("/api/products/" + this.currentProduct.id, params)
+        .then((response) => {
+          console.log(response.data);
+        });
     },
   },
 };
