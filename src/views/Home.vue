@@ -11,9 +11,17 @@
     <br>
     <br>
     <div v-for="product in products">
+      {{ product.id }}
       {{ product.name }}
+      <p><button v-on:click="showProduct()">Show more info</button></p>
     <p><img v-bind:src= "product.image_url" v-bind:alt= "product.title"></p>
     </div>
+    <dialog id="product-details">
+      <form method="dialog">
+        <h3>Hello</h3>
+        <button>Close</button>
+      </form>
+    </dialog>
   </div>
 </template>
 <style>
@@ -53,6 +61,10 @@ export default {
         console.log(response.data);
         this.products.push(response.data);
       });
+    },
+    showProduct: function () {
+      console.log("showing product");
+      document.querySelector("#product-details").showModal();
     },
   },
 };
